@@ -24,7 +24,6 @@ The core classes:
 ```
 src/                Source code (anderix.datajets package)
 website/            The original datajets.com website, tutorials, and JavaDoc
-releases/           Published release archives (v1.1, v1.2, v1.3)
 ```
 
 ## Context
