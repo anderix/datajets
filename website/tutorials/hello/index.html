@@ -1,0 +1,103 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJets</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>Hello, DataJet!</h1>
+<p>Welcome to the DataJet-enabled version of the venerable "Hello, World!"
+To learn how to use this tutorial, please see the <a href="/datajets/tutorials/">tutorials overview</a>.</p>
+<p>To get started, download the <a href="hello_db.zip">database</a>
+for this tutorial, and then set up an ODBC data source named "hello" that points to it.</p>
+<p>Next, create a class named "HelloDataJet" that contains a static <code>main</code> 
+method and nothing else. Import the anderix.datajets package into your class.</p>
+<pre><code>import anderix.datajets.*;</code></pre>
+<p>In this example, we'll be creating a 
+<a href="/datajets/reference/doc/com/datajets/GenericDataJet.html">GenericDataJet</a> object
+and calling its methods. All the code you write will be inside the 
+<code>main</code> method. This is appropriate for simple actions, 
+but typically you'll want to extend GenericDataJet to create your own 
+DataJets. I'll cover that in a future <a href="/datajets/tutorials/first/">tutorial</a>,
+but for now let's stick with the basics.</p>
+<p>We need to specify what driver and connection settings to use. We're 
+using the JDBC-ODBC Bridge with the data source you just set up, so type the 
+following code:</p>
+<code><pre>
+String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
+String url = "jdbc:odbc:hello";
+</pre></code>
+<p>In order for GenericDataJet to know what table and fields we want it to use,
+we're going to have to tell it! Open up the Access database and take a look 
+at the one and only table in it. The table is called "hello," and its two fields 
+are "id" and "text_field."</p>
+<code><pre>
+String table = "hello";
+String[] fields = new String[]{"id", "text_field"};
+</pre></code>
+<p>In order to pass this information into GenericDataJet, we need to package
+it in a format that DataJet understands. Create a new JetSet object and use 
+the variables we just declared as parameters in the constructor.</p>
+<code><pre>
+JetSet jetSet = new JetSet(driver, url, table, fields);
+</pre></code>
+<p>Now we have our JetSet, and we can put GenericDataJet to work.
+There is a record in our database with an id value of 1. Let's 
+have GenericDataJet load that record:</p>
+<code><pre>
+GenericDataJet dj = GenericDataJet.loadJet(1, jetSet);
+</pre></code>
+<p>The <code>loadJet</code> method may throw a ConnectionException 
+or a DataJetExcpetion. For the purposes of this tutorial, just add 
+<code>throws Exception</code> to your <code>main</code> method.</p>
+<p>Now that our record has been loaded, we can access its field values.
+The <code>getFieldValue</code> method needs to know the index of the 
+field value you want to retrieve. This is the same as the index of 
+the corresponding field name that you specified in the 
+<code>jetSet</code> method. We want to retrieve the value of the 
+"text_field" field, so in this case the index is 1. Print this value to
+the screen.</p>
+<code><pre>
+System.out.println(dj.getFieldValue(1));
+</pre></code>
+<p>That's all there is to it! Compile and run HelloDataJet. You've just 
+created your first DataJet application!</p>
+<h2>The Identity Field</h2>
+<p>Take another look at the line of code where we defined our fields:</p>
+<code><pre>
+String[] fields = new String[]{"id", "text_field"};
+</pre></code>
+<p>Notice the location of the "id" field. This is your identity field,
+or primary key. Because of the importance of this field to database 
+management systems, there are some rules to follow when it comes 
+to using DataJets.</p>
+<p><b>Rule #1: The identity 
+field must be an automatically-incrementing integer field in your database.</b> 
+DataJets assumes you'll be using an integer field for the primary key, 
+and that it will automatically increment. In our example, we're using an
+"AutoNumber" Access data type. Consult with your vender's documentation
+to see how to set this up with your database platform. This is 
+required setup for tables you'll be connecting your DataJets to.</p>
+<p><b>Rule #2: The identity field must be in the zeroth ordinal 
+position in your field list array.</b> Whenever you define the fields your
+DataJet will use, the primary key field must be in the zeroth ordinal position. 
+If it is not, your database operations won't work correctly. There 
+are no restrictions on the name of this field, just on its ordinal 
+position in the array.</p>
+<h2>Next Steps:</h2>
+<ul>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span><a href="hello.zip">Download the code</a> for this tutorial.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Read the JavaDocs for 
+	<a href="/datajets/reference/doc/com/datajets/GenericDataJet.html">GenericDataJet</a> and 
+	<a href="/datajets/reference/doc/com/datajets/JetSet.html">JetSet</a>.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Move on to the next tutorial: <a href="/datajets/tutorials/datum/">Introducing Datum</a></li>
+</ul>
+
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>

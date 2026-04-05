@@ -1,0 +1,123 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJets</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>Your First DataJet</h1>
+<p>In previous tutorials you learned how to write small applications
+that use GenericDataJet to retrieve data from a database. For most application, however, it is much more useful to extend GenericDataJet to build your own DataJet classes. This tutorial will show you how to do just that. We'll be using the same database file as we used in <a href="/datajets/tutorials/hello/">Hello, DataJet!</a>.
+Since we made some changes to the file in the last tutorial, you might want to
+<a href="/datajets/tutorials/hello/hello_db.zip">download a fresh copy</a>. If you skipped
+those lessons, download the file and set up an ODBC data source named "hello" 
+that points to it.</p>
+
+<p>Our objective in this lesson is to build an object that will let us add, 
+update and delete records in the "hello" table of our database. 
+Begin by writing a class named FirstDataJet that extends GenericDataJet.</p>
+
+<code><pre>
+import com.datajets.*;
+
+class FirstDataJet extends GenericDataJet {
+	
+}
+</pre></code>
+
+<p>Inside your class definition, add a static method named <code>jetSet</code>
+that returns (you guessed it) a JetSet object. Recalling the steps you took
+to create a JetSet object in previous tutorials, fill in the code to 
+create and return a new JetSet that corresponds to the "hello" table 
+in our database:</p>
+
+<code><pre>
+public static JetSet jetSet() {
+	String table = "hello";
+	String[] fields = new String[]{"id", "text_field"};
+	String driver = "sun.jdbc.odbc.JdbcOdbcDriver";
+	String connectionUrl = "jdbc:odbc:hello";
+	return new JetSet(driver, connectionUrl, table, fields);
+}
+</pre></code>
+
+<p>Take a quick look at the JavaDoc for 
+<a href="/datajets/reference/doc/com/datajets/GenericDataJet.html">GenericDataJet</a>.
+There are two constructors, one that accepts an int and a JetSet, and one that 
+just accepts a JetSet. We'll need to provide access to both of them, but now
+that we've defined our JetSet within a static method we can simply
+call that from within our constructors. Add the following:</p>
+
+<code><pre>
+public FirstDataJet() {
+	super(jetSet());
+}
+
+public FirstDataJet(int id) {
+	super(id, jetSet());
+}
+</pre></code>
+
+<p>Now let's provide an easy way to get and set values in our record:</p>
+
+<code><pre>
+public void setTextField(String textField) {
+	setFieldValue(1, textField);
+}
+
+public String getTextField() {
+	return getFieldValue(1).toString();
+}
+</pre></code>
+
+<p>Your first DataJet is now ready to be used. Add a <code>main</code> method
+so we can test it out:</p>
+
+<code><pre>
+public static void main(String[] args) throws Exception {
+	FirstDataJet dj = new FirstDataJet();
+	dj.setTextField("my entry");
+	dj.store();
+	System.out.println("Value stored in database!");
+}
+</pre></code>
+
+<p>Compile and run the application. You should see the message telling you
+that the value has been stored in the database. If you open the
+Access file and examine the table you should see your record. For the remainder of
+this lesson I'm assuming that you downloaded a fresh copy of the database before
+you began, so the id value for the record you just created is 2. If it is not,
+you may need to substitute the appropriate value in your code.</p>
+
+<p>Modify the code in your <code>main</code> method to update your record:</p>
+
+<code><pre>
+FirstDataJet dj = new FirstDataJet(2); <span class="code_comment">//pass id value to constructor</span>
+dj.setTextField("my updated entry");
+dj.store();
+System.out.println("Value updated in database!");
+</pre></code>
+
+<p>Finally, modify the code once again to delete your record:</p>
+<code><pre>
+FirstDataJet dj = new FirstDataJet(2);
+dj.remove();
+System.out.println("Record removed from database!");
+</pre></code>
+
+<h2>Next Steps:</h2>
+<ul>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span><a href="first.zip">Download the code</a> for this tutorial.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Review the JavaDoc for 
+	<a href="/datajets/reference/doc/com/datajets/GenericDataJet.html">GenericDataJet</a>.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Learn how to <a href="/datajets/tutorials/load/">add load methods</a> to your DataJet.</li>
+</ul>
+
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>

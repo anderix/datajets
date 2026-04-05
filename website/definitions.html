@@ -1,0 +1,62 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJet Definitions</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>DataJet Definitions</h1>
+<p>Some terms used on this website may not be familiar to you. This pages 
+provides basic definitions and links to additional information where
+appropriate. Click on the name of a term in the following list to read
+its definition.</p>
+<h3>Terms:</h3>
+<ul>
+<li><a href="#impedance_mismatch">Impedance mismatch</a></li>
+<li><a href="#o-r_mapping">Object-relational mapping</a></li>
+<li><a href="#seperation_of_concerns">Seperation of concerns</a></li>
+</ul>
+<a name="impedance_mismatch"><h2>Impedance mismatch</h2></a>
+<p>In writing modern software applications, there is a common problem known as
+impedance mismatch, which refers to the fact that object-oriented systems
+and relational database management systems rely on two very different conceptual
+paradigms. Object-oriented systems like Java are much different from relational database
+management systems in many ways, and designing those types of systems
+requires very different skills. In a typical software development scenario,
+time must be spent designing two different models: the object
+model and the data model. Developing an entirely object-oriented 
+design is difficult, because connections must be made between the object model
+and the data model. The objects cannot be stored directly in the database,
+nor can they be loaded from the database. Because of this, object oriented
+systems and relational database systems are said to have an impedence mismatch.</p>
+<p>See also: <a href="http://en.wikipedia.org/wiki/Object-Relational_Impedance_Mismatch" target="_blank">Object-Relational Impedance Mismatch</a></p>
+
+<a name="o-r_mapping"><h2>Object-relational mapping</h2></a>
+<p>Because of <a href="#impedance_mismatch">impedance mismatch</a> between object-oriented 
+development and relational database development, most modern software development 
+efforts must include mappings between the two types of systems. Object-relational 
+mapping is this process of defining the relationship betwen 
+objects and the relational tables that store them. Object-relational mapping is not 
+required for all systems, but it does make working with database 
+systems from within object-oriented and object-based languages
+much easier. Many solutions for object-relational mapping exist today. DataJets
+is not a mapping framework, but a framework that enables such mapping.</p>
+<p>See also: <a href="http://en.wikipedia.org/wiki/Object-relational_mapping" target="_blank">Object-Relational Mapping</a></p>
+
+<a name="seperation_of_concerns"><h2>Separation of Concerns</h2></a>
+<p>When designing software, it is helpful to group similar tasks together, isolating
+similar funcionality into seperate conceptual or physical modules. The similarities are known
+as concerns, and the process of isolating them is seperation of concerns. DataJets
+helps in this regard by isolating all database access within DataJet objects.
+Your DataJets will also help you seperate your business logic from display
+logic, further enabling modularity in your designs.</p>
+<p>See also: <a href="http://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank">Separation of Concerns</a></p>
+
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>

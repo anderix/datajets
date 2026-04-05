@@ -1,0 +1,70 @@
+<!--#set var="banner-title"  value="DataJet Template"-->
+<html>
+<head>
+<title>MyGenericDataJet extends GenericDataJet implements Definable</title>
+<link rel="stylesheet" type="text/css" href="/style/thin-anderix.css">
+</head>
+<body>
+
+<!--#include virtual="/includes/thin-header.html"-->
+
+<a href="javascript:window.history.back();"><< Back</a>
+
+<pre><code>
+import com.datajets.*;
+
+class MyGenericDataJet extends GenericDataJet implements Definable {
+
+	private static TableDefinition tableDef = null;
+	
+	public static JetSet jetSet() {
+		tableDef = new TableDefinition("my_table", "id", "counter");
+		tableDef.addField("text_field", "Text");
+		tableDef.addField("integer_field", "number");
+		return new JetSet("sun.jdbc.odbc.JdbcOdbcDriver", "jdbc:odbc:MyOdbcDataSource", tableDef);
+	}
+	
+	public MyGenericDataJet() {
+		super(jetSet());
+	}
+
+	public void setTextField(String textField) {
+		setFieldValue(1, textField);
+	}
+
+	public String getTextField() {
+		return getFieldValue(1).toString();
+	}
+
+	public void setIntegerField(int integerField) {
+		setFieldValue(2, new Integer(integerField));
+	}
+
+	public int getIntegerField() {
+		return getFieldValue(2).toInt();
+	}
+	
+	public void createTable(boolean dropTableFirst) throws ConnectionException, DataJetException {
+		JetSet jset = jetSet();
+		SqlBuilder sql = tableDef.createSqlBuilder();
+		tableDef.createTable(jset.getDriver(), jset.getConnectionString(), dropTableFirst);
+	}
+
+	public static MyGenericDataJet load(int id) throws ConnectionException, DataJetException {
+		MyGenericDataJet dj = new MyGenericDataJet();
+		load(id, dj, jetSet());
+		return dj;
+	}
+
+	public static MyGenericDataJet[] loadAll() throws ConnectionException, DataJetException {
+		JetSet jset = jetSet();
+		SqlBuilder sql = new SqlBuilder(jset.getTable(), jset.getFieldList());
+		return (MyGenericDataJet[])loadMultiple(sql, new MyGenericDataJet[]{new MyGenericDataJet()}, jset);
+	}
+
+}
+</code></pre>
+
+<!--#include virtual="/includes/thin-footer.html"-->
+</body>
+</html>

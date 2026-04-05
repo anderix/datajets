@@ -1,0 +1,11 @@
+	public static FirstDataJet load(int id) throws ConnectionException, DataJetException {
+		FirstDataJet dj = new FirstDataJet();
+		load(id, dj, jetSet());
+		return dj;
+	}
+
+	public static FirstDataJet[] loadAll() throws ConnectionException, DataJetException {
+		JetSet jset = jetSet();
+		SqlBuilder sql = new SqlBuilder(jset.getTable(), jset.getFieldList());
+		return (FirstDataJet[])FirstDataJet.loadMultiple(sql, new FirstDataJet[]{new FirstDataJet()}, jset);
+	}

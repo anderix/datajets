@@ -1,0 +1,95 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJets</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>Adding Load Methods</h1>
+
+<p>In the last tutorial you learned how to create your own DataJets that
+create, update, and delete records. But most of the biggest tasks associated
+with database applications involves loading a record or group of records.
+In this tutorial I'll show you how to accomplish this with your DataJets.
+We'll be building on the <a href="/datajets/tutorials/first/first.zip">code</a> 
+we wrote last time, and using the same 
+<a href="/datajets/tutorials/hello/hello_db.zip">database file</a>. Refer to earlier 
+tutorials for database configuration information.</p>
+
+<p>To load records from the database, DataJets use static methods. You can add
+as many (or as few) as your applications need. You can load a single record
+based on its id, or you can load multiple records based on an SQL statement
+or <a href="/datajets/reference/doc/com/datajets/SqlBuilder.html">SqlBuilder</a> object.
+
+<p>Let's start with the method to load a single FirstDataJet object by its id:</p>
+
+<code><pre>
+public static FirstDataJet load(int id) throws ConnectionException, DataJetException {
+	FirstDataJet dj = new FirstDataJet();
+	load(id, dj, jetSet());
+	return dj;
+}
+</pre></code>
+
+<p>Here we begin by instantiating a FirstDataJet object. We pass this object, 
+along with the id and our JetSet object, into the load method (exposed by DataJet,
+the parent of GenericDataJet). the load method "fills" the DataJet with the 
+values from the database without any further action on your part. Replace the code
+in your main method with the following:</p>
+
+<code><pre>
+FirstDataJet dj = FirstDataJet.load(1);
+System.out.println(dj.getTextField());
+</pre></code>
+
+<p>Compile and run FirstDataJet. You should see "Hello, DataJet!" on your screen.</p>
+
+<p>Next we'll add the method to load all records from the database into 
+FirstDataJet objects. Add the following:</p>
+
+<code><pre>
+public static FirstDataJet[] loadAll() throws ConnectionException, DataJetException {
+	JetSet jset = jetSet();
+	SqlBuilder sql = new SqlBuilder(jset.getTable(), jset.getFieldList());
+	return (FirstDataJet[])loadMultiple(sql, new FirstDataJet[]{new FirstDataJet()}, jset);
+}
+</pre></code>
+
+<p>In this code we are creating a local copy of our JetSet object. Although this
+isn't required, it makes the code a little more legible. Next, we create a 
+SqlBuilder object based on the table and fields defined in our JetSet. The last step
+is to call the static loadMultiple method (exposed by DataJet), passing in our
+SqlBuilder, an array of FirstDataJet objects to fill, and our JetSet object. The 
+loadMultiple method returns an array of DataJet objects, so we must cast it
+to an array of FirstDataJet objects.</p>
+
+<p>Comment out the code in your main method and add some code to test your
+loadAll method:</p>
+
+<code><pre>
+FirstDataJet[] jets = FirstDataJet.loadAll();
+for ( int i = 0; i < jets.length; i++ ) {
+	System.out.println(jets[i].getTextField());
+}
+</pre></code>
+
+<p>Compile and run FirstDataJet. You should see output from each of the
+records in your database.</p>
+
+<h2>Next Steps:</h2>
+<ul>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span><a href="load.zip">Download the code</a> for this tutorial.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Review the JavaDoc for 
+		<a href="/datajets/reference/doc/com/datajets/GenericDataJet.html">GenericDataJet</a>.</li>
+	<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Review the JavaDoc for 
+		<a href="/datajets/reference/doc/com/datajets/SqlBuilder.html">SqlBuilder</a>.</li>
+</ul>
+
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>

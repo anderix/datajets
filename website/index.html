@@ -1,0 +1,68 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJets</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>DataJets</h1>
+<p>DataJets is an open source framework for creating database-aware 
+classes in Java that contain create, read, update and delete 
+functionality. It was created to bridge the gap, known as 
+<a href="/datajets/definitions.html#impedance_mismatch">impedance mismatch</a>, 
+between object and relational paradigms. Its goal is to address 90% of 
+the basic database actions that many developers find themselves 
+coding over and over again in their applications.</p>
+<p>DataJets aid in 
+<a href="/datajets/definitions.html#o-r_mapping">object-relational mapping</a>
+and provides an alternative to the more complex APIs 
+that exist today. Building basic DataJets requires no SQL 
+and very little knowledge of JDBC, allowing developers to focus on the 
+business logic of applications. For more advanced DataJets knowledge of 
+SQL and relational database concepts is recommended. DataJets on their own make 
+good business objects for many solutions, and including
+them in your project promotes modular architecture and a 
+<a href="/datajets/definitions.html#seperation_of_concerns">seperation of concerns</a>.</p>
+
+<p>There are several ways to use DataJets, ranging from 
+simply instantiating the existing classes for connecting to database 
+tables to inheriting from the base classes to create more complex 
+architectures with support for connection pooling. DataJets can 
+encapsulate the logic for creating corresponding database tables, 
+eliminating the need for maintaining seperate SQL statements 
+for the installation of your applications.</p>
+
+<p>DataJets is an approachable framework for developers. 
+Writing a <a href="/datajets/tutorials/hello/">basic application</a> to access a database
+requires just a few lines of code. The existing classes include
+methods for creating, reading, updating and deleting database
+records, and can be extended to scale to much more complex 
+architectures. You can choose to use as much or as little of the 
+framework as you would like, and several of the classes (like 
+<a href="/datajets/reference/doc/com/datajets/SqlBuilder.html">SqlBuilder</a> and 
+<a href="/datajets/reference/doc/com/datajets/Datum.html">Datum</a>) are quite 
+useful in their own right, even for applications that don't 
+use DataJets.</p>
+<h2>Getting Started:</h2>
+<p>The best way to learn about DataJets is to jump right in!</p>
+<ul>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>This site has  
+<a href="/datajets/tutorials/">tutorials</a> that will help you get started.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Download the <a href="/datajets/download/datajets-bin-1.3.zip">Jar file</a> 
+or <a href="/datajets/download/datajets-src-1.3.zip">source code</a>.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>View the 
+<a href="/datajets/reference/doc/">JavaDoc</a> online, or <a href="/datajets/download/datajets-doc-1.3.zip">download it</a>.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>See how to <a href="/datajets/reference/MyGenericDataJet.html">extend GenericDataJet</a>.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>See how to <a href="/datajets/reference/MyDataJet.html">extend DataJet</a>.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Get answers to <a href="/datajets/faq.html">common questions</a>.</li>
+</ul>
+</p>
+
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>

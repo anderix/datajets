@@ -1,0 +1,92 @@
+<!--#set var="datajets"  value="yes"-->
+<!--#set var="solve"  value="topnav"-->
+<!--#set var="contact"  value="topnav"-->
+<!--#set var="login"  value="topnav"-->
+<html>
+<head>
+<title>DataJets</title>
+<link rel="stylesheet" type="text/css" href="/style/anderix.css">
+</head>
+<body>
+<!--#include virtual="/includes/header.html"-->
+
+<h1>Introducing Datum</h1>
+<p>The word "datum" is the singular form of data. Within the DataJets framework,
+Datum is a class that lets you manipulate pieces of information 
+returned by your database. This tutorial is an introduction to the 
+Datum type and its members. It will build on the 
+<a href="/datajets/tutorials/hello/hello.zip">code</a> created in
+<a href="/datajets/tutorials/hello/">Hello, DataJet!</a> and we'll also be
+using the same <a href="/datajets/tutorials/hello/hello_db.zip">database</a>. Don't 
+forget that you'll need an ODBC data source named "hello" that points 
+to the database.</p>
+<p>Let's explore Hello, DataJet! a little more. In your code,
+take another look at the last line in the main method:</p>
+<code><pre>
+System.out.println(dj.getFieldValue(1));
+</pre></code>
+<p>What do you suppose the class of the object returned by 
+<code>getFieldValue</code> is? Yep, you guessed it: it's 
+<a href="/datajets/reference/doc/com/datajets/Datum.html">Datum</a>. Now, before
+you tell me that Datum doesn't do you any good because you need
+it to return an int or a String, let me explain.
+Datum is a wrapper around Object, and the object it contains is actually
+of the type returned by your database for the specific field. For example,
+if your field value is stored in a field that is defined for text data 
+(say, varchar) then the object inside Datum is really a
+String. You just need to convert your Datum into a String.</p>
+<p>There are two basic categories of methods that Datum provides. The first 
+is a group of methods that follow the <code>is*</code> naming convention 
+and return a boolean value. These methods, as you might expect, are for 
+testing the type of the object inside Datum to determine if it
+is of the specified type. Rewrite the last line of code in HelloDataJet.java
+so that it looks like this:</p>
+<code><pre>
+Datum d = dj.getFieldValue(1);
+System.out.println(d.isString());
+</pre></code>
+<p>Compile and run your application. You'll see that <code>isString</code>
+returns true, because it contains a String datum. Try testing several other
+types:</p>
+<code><pre>
+System.out.println(d.isInt());
+System.out.println(d.isBoolean());
+</pre></code>
+<p>If you open up your database file and change the data type of the field,
+you'll notice that the type of the object returned also changes. By returning
+object of type Datum in <code>getFieldValue</code>, you will always
+have a consistent way of working with the values, regardless of type. In
+practice, you will usually know the type of data you are expecting, and
+you will just need to convert it appropriately.</p>
+<p>Which brings us to the second category of methods: those that are 
+used for conversion. These methods follow the <code>to*</code> naming
+convention. If you changed the field type in your database, return it to
+the Text data type and change the value in the field to 1 (that's the 
+number one, not the letter l). Then add:</p>
+<code><pre>
+System.out.println(d.toString());
+System.out.println(d.toInt());
+System.out.println(d.toBoolean());
+</pre></code>
+<p>Compile and run. The object type is once again String, but all the 
+<code>to*</code> methods were able to return values. None of Datum's 
+methods throw exceptions; if a piece of data cannot be converted, a default
+value is returned. Consult the <a href="/datajets/reference/doc/com/datajets/Datum.html">JavaDoc</a>
+for specific default values. <b>Please be careful when converting values to a 
+type other than its database type.</b> You don't want to mistake
+default values for real data! Use the <code>is*</code> methods
+if you are unsure of the type.</p>
+<p>Several of the classes within the com.datajets package are useful apart from
+the DataJets framework. Datum is one of those classes. For example, I've 
+used it when retrieving values from a querystring or form post in JSP. 
+I'm sure you'll think of other places where it can help out. Use Datum 
+and you'll have a consistent way to perform conversions between types.</p>
+<h2>Next Steps:</h2>
+<ul>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span><a href="datum.zip">Download the code</a> for this tutorial.</li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Review the JavaDoc for <a href="/datajets/reference/doc/com/datajets/Datum.html">Datum</a></li>
+<li><span class="leftnavBullet">&rsaquo;&rsaquo;&rsaquo;</span>Learn how to <a href="/datajets/tutorials/first/">build your own DataJets</a></li>
+</ul>
+<!--#include virtual="/includes/footer.html"-->
+</body>
+</html>
